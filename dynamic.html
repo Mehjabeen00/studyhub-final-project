@@ -1,0 +1,3057 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.5s;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f3f4ff, #fdf2f8);
+            padding: 30px;
+        }
+
+        .wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+
+        .sidebar {
+            width: 260px;
+            background: #1e1b4b;
+            color: white;
+            border-radius: 25px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            top: 30px;
+            height: fit-content;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+
+        .logo h2 {
+            transition: 0.4s;
+        }
+
+        .logo h2:hover {
+            letter-spacing: 4px;
+            color: #4587a1;
+        }
+
+        .logo svg {
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-small {
+            background: #2e2a6f;
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-small img {
+            width: 70px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .menu h4 {
+            font-size: 12px;
+            margin: 20px 0 10px;
+            opacity: .7;
+        }
+
+        .menu ul {
+            list-style: none;
+        }
+
+        .menu ul li {
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: .3s;
+            margin-bottom: 5px;
+        }
+
+        .menu ul li:hover {
+            background: #7c3aed;
+        }
+
+
+        .profile-actions .logout {
+            background: rgba(244, 115, 45, 0.841);
+            color: white;
+            font-weight: 800;
+            padding: 10px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        body.dark .profile-actions .logout {
+            background: #ed673a !important;
+            color: white !important;
+        }
+
+
+        .main {
+            flex: 1;
+        }
+
+        .card {
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+        }
+
+        .left {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .blue {
+            background: #60a5fa;
+            width: 70%;
+        }
+
+        .orange {
+            background: #fb923c;
+            width: 50%;
+        }
+
+        .purple {
+            background: #a78bfa;
+            width: 80%;
+        }
+
+        .green {
+            background: #4ade80;
+            width: 60%;
+        }
+
+        .profile-large {
+            text-align: center;
+        }
+
+
+        .profile-pic {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #6c63ff, #ff6ec4);
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: auto;
+        }
+
+        .profile-header {
+            text-align: center;
+        }
+
+        .profile-buttons button {
+            margin: 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #6c63ff;
+            color: white;
+        }
+
+        .profile-buttons button:hover {
+            opacity: 0.8;
+        }
+
+        .dark-mode {
+            background: #121212;
+            color: white;
+        }
+
+
+        .profile-large img {
+            width: 120px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .profile-card input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .profile-card button {
+            padding: 8px 14px;
+            margin-right: 8px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #18135c;
+            color: white;
+        }
+
+        .profile-card button:hover {
+            opacity: 0.9;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            color: rgb(19, 18, 18);
+            border-radius: 20px;
+            padding: 25px;
+            width: 400;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+
+        #profileAvatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 15px auto;
+            cursor: pointer;
+            color: white;
+            border: 3px solid white;
+        }
+
+        .profile-card h2 {
+            margin: 5px 0;
+            font-size: 20px;
+        }
+
+        .profile-card p {
+            margin: 4px 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .profile-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .profile-actions button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 10px;
+            background: #20075a;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .profile-actions button:hover {
+            background: #7c3aed;
+        }
+
+
+        .info {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .mini-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .edit-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #ebe8e8;
+            color: rgb(49, 72, 204);
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .skills span {
+            display: inline-block;
+            background: #f3f4ff;
+            padding: 6px 14px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        @media(max-width:1000px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wrapper {
+                flex-direction: column;
+            }
+        }
+
+
+        .todo-input {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .todo-input input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            outline: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .todo-input input:focus {
+            border-color: #4b3fe4;
+            box-shadow: 0 0 0 2px rgba(75, 63, 228, 0.1);
+        }
+
+        .todo-input button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: #4b3fe4;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .todo-input button:hover {
+            background: #372fc0;
+        }
+
+
+
+        #taskList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #taskList li {
+            background: #f8f9ff;
+            padding: 14px 15px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        #taskList li:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .task-text {
+            font-size: 14px;
+        }
+
+        .task-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .todo-complete {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .todo-complete:hover {
+            background: #16a34a;
+        }
+
+
+        .todo-edit {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .todo-edit:hover {
+            background: #2563eb;
+        }
+
+        .todo-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .todo-delete:hover {
+            background: #dc2626;
+        }
+
+
+        .completed .task-text {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .summary div {
+            text-align: center;
+            flex: 1;
+        }
+
+        .summary h3 {
+            color: #4b3fe4;
+            font-size: 22px;
+        }
+
+        .summary p {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .todo-top-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: #e5e7eb;
+        }
+
+        .filter-btn.active {
+            background: #4b3fe4;
+            color: white;
+        }
+
+        #searchInput {
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        #priority {
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .priority-high {
+            border-left: 5px solid #ef4444;
+        }
+
+        .priority-medium {
+            border-left: 5px solid #f59e0b;
+        }
+
+        .priority-low {
+            border-left: 5px solid #22c55e;
+        }
+
+        .overdue {
+            background: #ffe4e6 !important;
+        }
+
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-card iframe {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 15px;
+        }
+
+
+
+        .thumb-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-thumb {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 50%;
+        }
+
+        .help-step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: #4b3fe4;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .help-demo-box {
+            background: #f3f4ff;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .demo-add-btn {
+            background: #4b3fe4;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .help-feedback {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .yes-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .no-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+        .planner-add-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .planner-add-box input,
+        .planner-add-box select {
+            padding: 6px 10px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+
+        .planner-add-box input:focus,
+        .planner-add-box select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+            outline: none;
+        }
+
+        .planner-add-box button {
+            background: #4b3fe4;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            height: 36px;
+            width: 100px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-left: auto;
+        }
+
+
+        .planner-add-box button:hover {
+            background: #372fc0;
+            transform: scale(1.05);
+        }
+
+        .planner-grid {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .planner-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .planner-days div {
+            padding: 14px;
+            text-align: center;
+            font-weight: 600;
+            color: white;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .planner-days div:last-child {
+            border-right: none;
+        }
+
+
+        .planner-body {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            min-height: 380px;
+            background: #f9fafb;
+            color: gray;
+        }
+
+        .planner-cell {
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .planner-cell:hover {
+            background: #eef2ff;
+        }
+
+        .planner-event {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            margin-bottom: 8px;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+            animation: fadeIn 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .planner-event small {
+            display: block;
+            font-size: 11px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .planner-event button {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        .planner-event button:hover {
+            opacity: 1;
+        }
+
+        .planner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .planner-timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .planner-timer button {
+            padding: 4px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #4b3fe4;
+            color: white;
+            cursor: pointer;
+        }
+
+
+        .planner-timer span {
+            font-weight: 600;
+            font-size: 14px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .planner-timer button:hover {
+            background: #3730a3;
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .help-search {
+            margin-bottom: 25px;
+        }
+
+        .help-search input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .help-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .help-question {
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .help-answer {
+            margin-top: 10px;
+            display: none;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .help-item.active .help-answer {
+            display: block;
+        }
+
+        .help-item.active .help-question {
+            color: #4b3fe4;
+        }
+
+        .time-group {
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .time-group input {
+            margin-top: 4px;
+        }
+
+
+        .planner-body {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            min-height: 350px;
+        }
+
+        .planner-cell:nth-child(7n+1) {
+            background: rgba(255, 182, 193, 0.25);
+        }
+
+        .planner-cell:nth-child(7n+2) {
+            background: rgba(144, 238, 144, 0.25);
+        }
+
+        .planner-cell:nth-child(7n+3) {
+            background: rgba(173, 216, 230, 0.25);
+        }
+
+        .planner-cell:nth-child(7n+4) {
+            background: rgba(221, 160, 221, 0.25);
+        }
+
+        .planner-cell:nth-child(7n+5) {
+            background: rgba(255, 255, 153, 0.25);
+        }
+
+        .planner-cell:nth-child(7n+6) {
+            background: rgba(255, 218, 185, 0.25);
+        }
+
+        .planner-cell:nth-child(7n+7) {
+            background: rgba(175, 238, 238, 0.25);
+        }
+
+        body.dark {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        body.dark .card,
+        body.dark .quiz-content,
+        body.dark .summary,
+        body.dark .video-card,
+        body.dark .planner-add-box,
+        body.dark .help-feedback {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: none;
+        }
+
+        body.dark input,
+        body.dark select,
+        body.dark textarea {
+            background: #334155;
+            color: #f1f5f9;
+            border: 1px solid #475569;
+        }
+
+        body.dark #taskList li {
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+
+
+        body.dark .question-card {
+            background: #1e293b;
+        }
+
+
+        body.dark .help-demo-box {
+            background: #1e293b;
+        }
+
+        body.dark .help-item {
+            border-color: #334155;
+        }
+
+
+        body.dark .planner-body {
+            background: #0f172a;
+        }
+
+        body.dark .planner-cell {
+            border-color: #334155;
+        }
+
+        body.dark .planner-cell:nth-child(7n+1),
+        body.dark .planner-cell:nth-child(7n+2),
+        body.dark .planner-cell:nth-child(7n+3),
+        body.dark .planner-cell:nth-child(7n+4),
+        body.dark .planner-cell:nth-child(7n+5),
+        body.dark .planner-cell:nth-child(7n+6),
+        body.dark .planner-cell:nth-child(7n+7) {
+            background: #1e293b;
+        }
+
+        body.dark #searchInput,
+        body.dark #priority {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #f1f5f9;
+        }
+
+        body.dark .help-search input {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #f1f5f9;
+        }
+
+
+        body.dark .profile-card {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: none;
+        }
+
+        body.dark .profile-details p {
+            color: #cbd5e1;
+        }
+
+        body.dark #profileAvatar {
+            border: 3px solid #1e293b;
+        }
+
+        body.dark .profile-buttons button,
+        body.dark .profile-actions button {
+            background: #4b3fe4;
+            color: white;
+        }
+
+        body.dark .profile-buttons button:hover,
+        body.dark .profile-actions button:hover {
+            background: #6366f1;
+        }
+
+        body.dark .logout {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        body.dark .quiz-box {
+            background: #1e293b;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark .quiz-box h3 {
+            color: #f8fafc;
+        }
+
+        body.dark .quiz-box p {
+            color: #cbd5e1;
+        }
+
+
+        body.dark .question {
+            background: #1e293b;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark .question h4 {
+            color: #f1f5f9;
+        }
+
+
+        body.dark .question label {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        body.dark .question label:hover {
+            background: #475569;
+        }
+
+        body.dark .back-btn {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        body.dark .submit-btn {
+            background: #6366f1;
+            color: white;
+        }
+
+        body.dark .submit-btn:hover {
+            background: #4f46e5;
+        }
+
+        body.dark #result {
+            color: #facc15;
+        }
+
+
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin: 10px 10px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ccc;
+            transition: 0.4s;
+            border-radius: 30px;
+        }
+
+        .slider::before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background: #4b3fe4;
+        }
+
+        input:checked+.slider::before {
+            transform: translateX(30px);
+        }
+
+
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .video-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .video-modal-content {
+            width: 80%;
+            max-width: 900px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .video-modal.active .video-modal-content {
+            transform: scale(1);
+        }
+
+        .video-modal-content iframe {
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+        }
+
+        .close-video {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            font-size: 35px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-video:hover {
+            transform: scale(1.2);
+        }
+
+        .edit-icon {
+            float: right;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        #quizHome {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding: 40px;
+            width: 100%;
+        }
+
+        .quiz-box {
+            width: 100%;
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            transition: 0.3s ease;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quiz-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .quiz-box img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .quiz-box h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 15px 0 8px;
+        }
+
+        .quiz-box p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+
+        .question {
+            background: #e3e3e5;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            margin-bottom: 25px;
+            transition: 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-4px);
+        }
+
+        .question h4 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .question label {
+            display: block;
+            background: #f5f3f3;
+            padding: 8px 12px;
+            margin: 6px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .question label:hover {
+            background: #e0e7ff;
+        }
+
+
+        .back-btn,
+        .submit-btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            transition: 0.3s ease;
+        }
+
+        .back-btn {
+            background: #e5e7ff;
+            color: #333;
+        }
+
+        .back-btn:hover {
+            background: #d4d7ff;
+        }
+
+        .submit-btn {
+            background: #4b3fe4;
+            color: white;
+        }
+
+        .submit-btn:hover {
+            background: #372fc0;
+        }
+
+        @media (max-width: 992px) {
+            #quizHome {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            #quizHome {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .greet {
+            margin-top: 30px;
+        }
+
+        .sidebar-email {
+            font-size: 13px;
+            word-break: break-all;
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10px;
+            width: 8px;
+            height: 14px;
+            background-color: red;
+            opacity: 0.8;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 1;
+            }
+        }
+
+
+
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            cursor: default;
+        }
+
+        h1:hover,
+        h2:hover,
+        h3:hover,
+        h4:hover,
+        h5:hover,
+        h6:hover {
+            transform: translateY(-3px);
+            letter-spacing: 1px;
+        }
+
+
+        p:hover {
+            transform: translateY(-2px);
+        }
+
+
+        span:hover {
+            letter-spacing: 1px;
+        }
+
+
+        li:hover {
+            transform: translateX(6px);
+        }
+
+
+        .feature-card:hover,
+        .key-feature-card:hover,
+        .card:hover,
+        .blog-card:hover,
+        .hub-card:hover,
+        .testimonial:hover,
+        .dashboard-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+
+        img {
+            transition: transform 0.5s ease, box-shadow 0.4s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+        }
+
+
+        .icon,
+        i {
+            transition: transform 0.3s ease;
+        }
+
+        .icon:hover,
+        i:hover {
+            transform: scale(1.2) rotate(6deg);
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+
+        a {
+            position: relative;
+            text-decoration: none;
+        }
+
+        a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0%;
+            height: 2px;
+            background: currentColor;
+            transition: 0.3s ease;
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+
+        input,
+        textarea,
+        select {
+            transition: 0.3s ease;
+        }
+
+        input:hover,
+        textarea:hover,
+        select:hover {
+            transform: scale(1.02);
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            transform: scale(1.03);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .features-image img,
+        .love-image img {
+            animation: subtleFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes subtleFloat {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+
+        .wrapper {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            overflow-x: hidden;
+        }
+
+        .wrapper .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wrapper .sidebar {
+            flex-shrink: 0;
+        }
+
+
+
+        @media (max-width: 992px) {
+
+            .wrapper {
+                flex-direction: column !important;
+            }
+
+            .wrapper .sidebar {
+                width: 100% !important;
+                border-radius: 20px !important;
+                padding: 20px !important;
+            }
+
+            .wrapper .main {
+                width: 100% !important;
+            }
+
+
+            .wrapper .profile-small img {
+                width: 55px !important;
+            }
+
+            .wrapper .menu ul {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 10px !important;
+            }
+
+            .wrapper .menu ul li {
+                padding: 8px 12px !important;
+                font-size: 13px !important;
+            }
+
+            .wrapper .left {
+                grid-template-columns: 1fr 1fr !important;
+            }
+
+            .wrapper .planner-days,
+            .wrapper .planner-body {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .wrapper .sidebar {
+                padding: 15px !important;
+            }
+
+            .wrapper .profile-small img {
+                width: 50px !important;
+            }
+
+            .wrapper .profile-small h4 {
+                font-size: 14px !important;
+            }
+
+            .wrapper .profile-small p {
+                font-size: 12px !important;
+            }
+
+            .wrapper .menu ul {
+                flex-direction: column !important;
+            }
+
+            .wrapper .left {
+                grid-template-columns: 1fr !important;
+            }
+
+            .wrapper .card {
+                padding: 15px !important;
+            }
+
+            .wrapper .planner-days,
+            .wrapper .planner-body {
+                grid-template-columns: 1fr !important;
+            }
+
+            .wrapper .planner-cell {
+                min-height: 80px !important;
+            }
+
+            .wrapper .video-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .wrapper .video-card iframe {
+                height: 220px !important;
+            }
+
+            .wrapper .quiz-box {
+                width: 100% !important;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .wrapper .profile-small img {
+                width: 45px !important;
+            }
+
+            .wrapper .menu ul li {
+                font-size: 12px !important;
+            }
+
+            .wrapper h2 {
+                font-size: 18px !important;
+            }
+
+            .wrapper h3 {
+                font-size: 16px !important;
+            }
+
+        }
+
+
+
+        .wrapper .planner-days,
+        .wrapper .planner-body {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .wrapper .planner-cell {
+            min-height: 100px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .wrapper .planner-days div {
+            text-align: center;
+            font-weight: 600;
+            padding: 8px 0;
+        }
+
+
+        @media (max-width: 992px) {
+
+            .wrapper .planner-days,
+            .wrapper .planner-body {
+                grid-template-columns: repeat(4, 1fr) !important;
+            }
+
+            .wrapper .planner-cell {
+                min-height: 90px;
+                font-size: 13px;
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .wrapper .planner-days,
+            .wrapper .planner-body {
+                grid-template-columns: 1fr !important;
+            }
+
+            .wrapper .planner-cell {
+                min-height: 80px;
+                font-size: 13px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <div class="sidebar">
+            <div>
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 24 24">
+                        <path fill="#4CAF50" d="M3 6l9-4 9 4-9 4z" />
+                        <path fill="#2196F3" d="M3 10l9 4 9-4v6l-9 4-9-4z" />
+                    </svg>
+                    <h2>StudyHub</h2>
+                </div>
+
+                <div class="dark-toggle">
+                    <span class="dark-label">Dark Mode</span>
+                    <label class="theme-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+
+                <div class="profile-small">
+                    <div style="text-align:center;margin-bottom:15px;">
+                        <div id="sidebarAvatar"></div>
+
+                    </div>
+                    <h4 id="sidebarUsername"></h4>
+                    <p id="sidebarEmail" class="sidebar-email"></p>
+                </div>
+
+                <div class="menu">
+                    <h4>MAIN MENU</h4>
+                    <ul>
+                        <li onclick="showSection('dashboard')">My Dashboard</li>
+                        <li onclick="showSection('quizHome')">Quizzes</li>
+                        <li onclick="showSection('todolist')">To do list</li>
+                        <li onclick="showSection('planner')">Weekly Planner</li>
+                        <li onclick="showSection('videos')">Video lectures</li>
+                    </ul>
+
+                    <h4>PREFERENCES</h4>
+                    <ul>
+                        <li onclick="showSection('help')">Help Center</li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="main">
+
+            <div id="dashboard" class="section">
+                <div class="dashboard-grid">
+
+                    <div class="left">
+
+                        <div class="card">
+                            <span class="edit-icon" onclick="editCard(this)">✏️</span>
+
+
+                            <h3>Soft Skills</h3>
+                            <p>Problem Solving</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill blue"></div>
+                            </div>
+                            <p>Creativity</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill orange"></div>
+                            </div>
+                            <p>Critical Thinking</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple"></div>
+                            </div>
+                            <p>Discipline</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill green"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <span class="edit-icon" onclick="editCard(this)">✏️</span>
+
+                            <h3>Interests</h3>
+                            <p>Sports</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill blue"></div>
+                            </div>
+                            <p>Technology</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill purple"></div>
+                            </div>
+                            <p>Literature</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill orange"></div>
+                            </div>
+                            <p>Arts</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill green"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <span class="edit-icon" onclick="editCard(this)">✏️</span>
+
+                            <h3>Study Time</h3>
+                            <p>Total 180 Hours</p>
+                            <div
+                                style="height:150px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#fb923c;">
+                                180h</div>
+                        </div>
+
+                        <div class="card">
+                            <span class="edit-icon" onclick="editCard(this)">✏️</span>
+
+                            <h3>Ongoing Courses</h3>
+                            <p>Mathematics</p>
+                            <p>Japanese Language</p>
+                            <p>English Language</p>
+                            <p>Web development</p>
+                            <p>Graphic Designing</p>
+                            <p>PYTHON Development</p>
+                        </div>
+
+                        <div class="card">
+                            <span class="edit-icon" onclick="editCard(this)">✏️</span>
+                            <h3>Teachers</h3>
+                            <p>Ridwan B</p>
+                            <p>Diana I</p>
+                            <p>Bastian V</p>
+                            <p>Ismail R</p>
+                        </div>
+
+                        <div class="card">
+                            <span class="edit-icon" onclick="editCard(this)">✏️</span>
+
+                            <h3>Rewards</h3>
+                            <p>🏆 3 Achievements</p>
+                            <p>⭐ 12 Points</p>
+                        </div>
+
+                    </div>
+
+                    <div id="profile">
+
+                        <div class="profile-card">
+
+                            <div class="profile-header">
+                                <div style="text-align:center;margin-bottom:15px;">
+                                    <div id="profileAvatar"></div>
+                                    <input type="file" id="avatarUpload" accept="image/*" hidden>
+                                </div>
+                                <h2 id="profileUsername"></h2>
+                                <p id="education">INTERMEDIATE | PART 2</p>
+                            </div>
+
+                            <div class="profile-details">
+                                <p>Email: <span id="profileEmail"></span></p>
+                                <p>University: <span id="university">SIBAU</span></p>
+                                <p>City: <span id="city">SUKKUR</span></p>
+                                <p id="userRole"></p>
+                            </div>
+
+                            <div class="profile-buttons">
+                                <button onclick="editProfile()">Edit Profile</button>
+                                <button onclick="shareProfile()">Share Profile</button>
+                                <button onclick="saveProfile()">Save</button>
+                            </div>
+
+
+                            <h3>📊 Stats</h3>
+                            <div class="stats">
+                                <p>🔥 Study Streak: <span id="streak">5</span> days</p>
+                                <p>📚 Tasks Completed: <span id="tasks">20</span></p>
+                                <p>📝 Quizzes Attempted: <span id="quizzes">8</span></p>
+                            </div>
+
+
+                            <div class="profile-actions">
+                                <button class="logout" onclick="confirmLogout()">Logout</button>
+                            </div>
+
+                        </div>
+
+
+                        <div class="card greet">
+                            <h3 id="greeting">GOOD NIGHT!</h3>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div id="quizHome" class="section">
+
+                <div class="quiz-box" onclick="openQuiz('english')">
+                    <h1>English Quiz</h1>
+                    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" alt="">
+                    <p>Improve your grammar, vocabulary and sentence structure skills.</p>
+                </div>
+                <div class="quiz-box" onclick="openQuiz('math')">
+                    <h1>Math Quiz</h1>
+                    <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904" alt="">
+                    <p>Test your algebra, arithmetic and problem solving abilities.</p>
+                </div>
+                <div class="quiz-box" onclick="openQuiz('science')">
+                    <h1> Science Quiz</h1>
+                    <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d" alt="">
+                    <p>Challenge yourself with physics, chemistry and biology questions.</p>
+                </div>
+
+            </div>
+            <div id="quizArea" class="section">
+                <div class="card" id="quizContent"></div>
+            </div>
+
+
+
+            <div id="videos" class="section">
+                <div id="videoContainer" class="video-grid"></div>
+            </div>
+
+            <div id="videoModal" class="video-modal">
+                <div class="video-modal-content">
+                    <span class="close-video" onclick="closeVideo()">&times;</span>
+                    <iframe id="videoFrame" src="" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+
+
+
+
+            <div id="todolist" class="section">
+                <div class="card">
+
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <h3>To Do List</h3>
+                    </div>
+
+                    <div class="todo-top-bar">
+                        <div class="filters">
+                            <button onclick="setFilter('all')" class="filter-btn active">All</button>
+                            <button onclick="setFilter('completed')" class="filter-btn">Completed</button>
+                            <button onclick="setFilter('pending')" class="filter-btn">Pending</button>
+                            <button onclick="setFilter('overdue')" class="filter-btn">Overdue</button>
+                        </div>
+
+                        <input type="text" id="searchInput" placeholder="Search tasks..." onkeyup="renderTasks()">
+                    </div>
+
+                    <div class="todo-input">
+                        <input type="text" id="taskInput" placeholder="Enter your task...">
+                        <input type="date" id="dueDate">
+
+                        <select id="priority">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+
+                        <button onclick="addTask()">Add</button>
+                    </div>
+
+                    <ul id="taskList"></ul>
+
+                </div>
+
+                <div class="summary">
+                    <div>
+                        <h3 id="totalTasks">0</h3>
+                        <p>Total Tasks</p>
+                    </div>
+
+                    <div>
+                        <h3 id="completedTasks">0</h3>
+                        <p>Completed</p>
+                    </div>
+
+                    <div>
+                        <h3 id="pendingTasks">0</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:20px;">
+                    <h3>Task Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" id="progressFill"></div>
+                    </div>
+                    <p id="progressText">0% Completed</p>
+                </div>
+            </div>
+
+            <div id="help" class="section">
+                <div class="card">
+
+                    <h2>Help Center</h2>
+                    <p style="margin-bottom:20px;">Find answers to common questions below.</p>
+
+                    <div class="help-search">
+                        <input type="text" id="helpSearch" placeholder="Search help topics..." onkeyup="searchHelp()">
+                    </div>
+
+
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            How to add a task?
+                            <span>+</span>
+                        </div>
+                        <div class="help-answer">
+                            Go to To-Do List → Enter task → Select due date → Choose priority → Click Add.
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            How to mark task as complete?
+                            <span>+</span>
+                        </div>
+                        <div class="help-answer">
+                            Click the green "Complete" button next to the task.
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            How to use Weekly Planner?
+                            <span>+</span>
+                        </div>
+                        <div class="help-answer">
+                            Go to Weekly Planner → Add event title → Select day → Choose start & end time → Click Add.
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            How to attempt quizzes?
+                            <span>+</span>
+                        </div>
+                        <div class="help-answer">
+                            Go to Quiz section → Select subject → Answer questions → Click Submit to see score.
+                        </div>
+                    </div>
+
+                    <div class="help-item">
+                        <div class="help-question" onclick="toggleHelp(this)">
+                            How to enable dark mode?
+                            <span>+</span>
+                        </div>
+                        <div class="help-answer">
+                            Turn on the Dark Mode toggle button from sidebar.
+                        </div>
+                    </div>
+
+                    <div class="help-feedback">
+                        <p>Did this help you?</p>
+                        <button class="yes-btn" onclick="feedback('yes')">Yes</button>
+                        <button class="no-btn" onclick="feedback('no')">No</button>
+                        <p id="feedbackMessage" style="margin-top:10px;"></p>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div id="planner" class="section">
+                <div class="card">
+                    <div class="planner-header">
+                        <h2>Weekly Planner</h2>
+                        <div class="planner-timer">
+                            <span id="timerDisplay">00:00:00</span>
+                            <button onclick="startTimer()">Start</button>
+                            <button onclick="stopTimer()">Stop</button>
+                            <button onclick="resetTimer()">Reset</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="planner-add-box">
+                        <input type="text" id="eventTitle" placeholder="Enter event title...">
+
+                        <select id="eventDay">
+                            <option value="0">Sunday</option>
+                            <option value="1">Monday</option>
+                            <option value="2">Tuesday</option>
+                            <option value="3">Wednesday</option>
+                            <option value="4">Thursday</option>
+                            <option value="5">Friday</option>
+                            <option value="6">Saturday</option>
+                        </select>
+
+
+                        <div class="time-group">
+                            <input type="time" id="endTime">
+                        </div>
+
+
+                        <button type="button" onclick="addPlannerEvent()">Add</button>
+                    </div>
+
+                    <div class="planner-grid">
+
+                        <div class="planner-days">
+                            <div>Sun</div>
+                            <div>Mon</div>
+                            <div>Tue</div>
+                            <div>Wed</div>
+                            <div>Thu</div>
+                            <div>Fri</div>
+                            <div>Sat</div>
+                        </div>
+
+                        <div class="planner-body" id="plannerBody">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+    </div>
+
+    <script>
+        showSection("dashboard");
+
+
+        function showSection(sectionId) {
+
+            const allSections = document.querySelectorAll(".section");
+
+            allSections.forEach(section => {
+                section.style.display = "none";
+            });
+
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.style.display = "block";
+            }
+        }
+
+
+        const toggle = document.getElementById("darkModeToggle");
+
+        toggle.addEventListener("change", function () {
+            document.body.classList.toggle("dark");
+        });
+
+
+
+        const quizData = {
+
+            english: [
+                { q: "Choose the correct synonym of 'Happy'", options: ["Sad", "Joyful", "Angry", "Tired"], answer: 1 },
+                { q: "Identify the noun: 'She runs fast'", options: ["She", "Runs", "Fast", "None"], answer: 0 },
+                { q: "Choose correct spelling", options: ["Recieve", "Receive", "Recive", "Receve"], answer: 1 },
+                { q: "Antonym of 'Big'", options: ["Large", "Huge", "Small", "Wide"], answer: 2 },
+                { q: "Choose correct article: ___ apple", options: ["A", "An", "The", "No article"], answer: 1 },
+                { q: "Past tense of 'Go'", options: ["Goed", "Went", "Gone", "Going"], answer: 1 },
+                { q: "Plural of 'Child'", options: ["Childs", "Children", "Childes", "Childrens"], answer: 1 },
+                { q: "Identify adjective: 'Beautiful flower'", options: ["Beautiful", "Flower", "Is", "Run"], answer: 0 },
+                { q: "Choose correct sentence", options: ["He go to school", "He goes to school", "He going school", "He gone school"], answer: 1 },
+                { q: "Synonym of 'Quick'", options: ["Slow", "Fast", "Late", "Heavy"], answer: 1 }
+            ],
+
+            science: [
+                { q: "Water boils at?", options: ["50°C", "100°C", "150°C", "0°C"], answer: 1 },
+                { q: "Sun is a?", options: ["Planet", "Star", "Galaxy", "Moon"], answer: 1 },
+                { q: "Plants make food by?", options: ["Respiration", "Photosynthesis", "Digestion", "Transpiration"], answer: 1 },
+                { q: "Human heart has?", options: ["2 chambers", "3 chambers", "4 chambers", "5 chambers"], answer: 2 },
+                { q: "Gas we breathe in?", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], answer: 0 },
+                { q: "Earth revolves around?", options: ["Moon", "Mars", "Sun", "Jupiter"], answer: 2 },
+                { q: "Largest planet?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: 2 },
+                { q: "Unit of force?", options: ["Newton", "Joule", "Watt", "Pascal"], answer: 0 },
+                { q: "Solid to liquid is?", options: ["Freezing", "Melting", "Condensation", "Evaporation"], answer: 1 },
+                { q: "Human brain controls?", options: ["Digestion", "Thinking", "Breathing", "All of these"], answer: 3 }
+            ],
+
+            math: [
+                { q: "5 + 7 = ?", options: ["10", "11", "12", "13"], answer: 2 },
+                { q: "9 × 3 = ?", options: ["18", "27", "21", "24"], answer: 1 },
+                { q: "15 - 6 = ?", options: ["8", "9", "10", "7"], answer: 1 },
+                { q: "Square of 4?", options: ["8", "12", "16", "20"], answer: 2 },
+                { q: "10 ÷ 2 = ?", options: ["2", "4", "5", "6"], answer: 2 },
+                { q: "Perimeter of square (side 5)?", options: ["10", "15", "20", "25"], answer: 2 },
+                { q: "100 ÷ 10 = ?", options: ["5", "10", "20", "15"], answer: 1 },
+                { q: "7 + 8 = ?", options: ["14", "15", "16", "13"], answer: 1 },
+                { q: "6 × 6 = ?", options: ["30", "36", "42", "48"], answer: 1 },
+                { q: "20 - 9 = ?", options: ["10", "11", "12", "13"], answer: 1 }
+            ]
+        };
+
+
+        function openQuiz(subject) {
+
+            showSection('quizArea');
+
+            const questions = quizData[subject];
+            const quizContent = document.getElementById("quizContent");
+
+            let html = `<button class="back-btn" onclick="showSection('quizHome')">← Back</button>`;
+            html += `<h2 style="margin:15px 0;">${subject.toUpperCase()} Quiz</h2>`;
+
+            questions.forEach((item, index) => {
+                html += `
+        <div class="question" id="question-${index}">
+            <h4>${index + 1}. ${item.q}</h4>
+            ${item.options.map((opt, i) => `
+                <label>
+                    <input type="radio" name="q${index}" value="${i}">
+                    ${opt}
+                </label>
+            `).join("")}
+            <div class="answer-feedback" id="feedback-${index}"></div>
+        </div>
+        `;
+            });
+
+            html += `<button class="submit-btn" onclick="submitQuiz('${subject}')">Submit</button>`;
+            html += `<h3 id="result" style="margin-top:20px;"></h3>`;
+
+            quizContent.innerHTML = html;
+        }
+
+        function submitQuiz(subject) {
+
+            const questions = quizData[subject];
+            let score = 0;
+
+            questions.forEach((item, index) => {
+
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                const feedback = document.getElementById(`feedback-${index}`);
+                const questionCard = document.getElementById(`question-${index}`);
+
+                feedback.innerHTML = "";
+                questionCard.style.border = "2px solid transparent";
+
+                if (!selected) {
+
+                    feedback.innerHTML = `<span style="color:orange;">⚠ Not Answered</span>`;
+                    questionCard.style.border = "2px solid orange";
+
+                } else if (parseInt(selected.value) === item.answer) {
+
+                    score++;
+                    feedback.innerHTML = `<span style="color:green;">✔ Correct</span>`;
+                    questionCard.style.border = "2px solid green";
+
+                } else {
+
+                    const correctAnswer = item.options[item.answer];
+
+                    feedback.innerHTML = `
+                <span style="color:red;">❌ Wrong</span><br>
+                <small style="color:green;">Correct Answer: ${correctAnswer}</small>
+            `;
+
+                    questionCard.style.border = "2px solid red";
+                }
+            });
+
+            document.getElementById("result").innerHTML =
+                `🎯 Your Score: ${score} / ${questions.length}`;
+            launchConfetti();
+        }
+
+
+
+
+        const videos = [
+            { title: "Mathematics", id: "HfACrKJ_Y2w" },
+            { title: "English Grammar", id: "kUMe1FH4CHE" },
+            { title: "Science Basics", id: "NHECopO6L3g" },
+            { title: "Computer Science", id: "O5nskjZ_GoI" },
+            { title: "History", id: "Yocja_N5s1I" },
+            { title: "Geography", id: "xHXs_eu58o4" },
+            { title: "Physics", id: "b1t41Q3xRM8" },
+            { title: "Chemistry", id: "FSyAehMdpyI" },
+            { title: "Biology", id: "URUJD5NEXC8" },
+            { title: "Islamic Studies", id: "-5HQ9iH0zQY" },
+            { title: "Urdu Literature", id: "JR-J_4d2_0A" },
+            { title: "Economics", id: "3ez10ADR_gM" }
+        ];
+
+
+
+        function loadVideos() {
+            const container = document.getElementById("videoContainer");
+            container.innerHTML = "";
+
+            videos.forEach(video => {
+                const thumbnail = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`;
+
+                container.innerHTML += `
+            <div class="video-card">
+                <div class="thumb-wrapper" onclick="openVideo('${video.id}')">
+                    <img src="${thumbnail}" class="video-thumb">
+                    <div class="play-btn">▶</div>
+                </div>
+                <h4 style="margin-top:10px;">${video.title}</h4>
+            </div>
+        `;
+            });
+        }
+
+
+        loadVideos();
+        function openVideo(videoId) {
+            const modal = document.getElementById("videoModal");
+            const frame = document.getElementById("videoFrame");
+
+            frame.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+            modal.classList.add("active");
+        }
+
+
+
+        function closeVideo() {
+            const modal = document.getElementById("videoModal");
+            const frame = document.getElementById("videoFrame");
+
+            frame.src = "";
+            modal.classList.remove("active");
+        }
+
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") {
+                closeVideo();
+            }
+        });
+
+
+        document.getElementById("videoModal").addEventListener("click", function (e) {
+            if (e.target.id === "videoModal") {
+                closeVideo();
+            }
+        });
+
+
+
+        let currentFilter = "all";
+
+
+
+        function setFilter(filter, el) {
+            currentFilter = filter;
+
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            if (el) el.classList.add("active");
+
+            renderTasks();
+        }
+
+
+
+
+
+        function updateSummary() {
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            let total = tasks.length;
+            let completed = tasks.filter(task => task.completed).length;
+            let pending = total - completed;
+
+            document.getElementById("totalTasks").innerText = total;
+            document.getElementById("completedTasks").innerText = completed;
+            document.getElementById("pendingTasks").innerText = pending;
+
+            let percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+            document.getElementById("progressFill").style.width = percent + "%";
+
+            if (document.getElementById("progressText")) {
+                document.getElementById("progressText").innerText = percent + "% Completed";
+            }
+        }
+
+
+
+        function addTask() {
+
+            let input = document.getElementById("taskInput");
+            let dueDate = document.getElementById("dueDate");
+            let prioritySelect = document.getElementById("priority");
+
+            let text = input.value.trim();
+            let date = dueDate.value;
+            let priority = prioritySelect ? prioritySelect.value : "low";
+
+            if (text === "") return;
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            tasks.push({
+                text: text,
+                date: date,
+                priority: priority,
+                completed: false
+            });
+
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+
+            input.value = "";
+            dueDate.value = "";
+
+            renderTasks();
+        }
+
+
+
+        function deleteTask(index) {
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            tasks.splice(index, 1);
+
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+
+            renderTasks();
+        }
+
+
+
+        function toggleComplete(index) {
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            tasks[index].completed = !tasks[index].completed;
+
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+
+            renderTasks();
+        }
+
+
+
+        function editTask(index) {
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            let taskList = document.getElementById("taskList");
+
+            let li = taskList.children[index];
+            let span = li.querySelector(".task-text");
+
+            let input = document.createElement("input");
+            input.type = "text";
+            input.value = tasks[index].text;
+            input.className = "edit-input";
+
+            span.replaceWith(input);
+            input.focus();
+
+            input.addEventListener("blur", function () {
+
+                tasks[index].text = input.value.trim() || "Untitled Task";
+
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+
+                renderTasks();
+            });
+        }
+
+
+        function renderTasks() {
+
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            let searchInput = document.getElementById("searchInput");
+
+            let search = searchInput ? searchInput.value.toLowerCase() : "";
+
+            tasks.forEach((task, index) => {
+
+                let today = new Date().toISOString().split("T")[0];
+                let isOverdue = task.date && task.date < today && !task.completed;
+
+                if (currentFilter === "completed" && !task.completed) return;
+                if (currentFilter === "pending" && task.completed) return;
+                if (currentFilter === "overdue" && !isOverdue) return;
+                if (!task.text.toLowerCase().includes(search)) return;
+
+                let li = document.createElement("li");
+
+                li.className = `
+            ${task.completed ? "completed" : ""}
+            priority-${task.priority}
+            ${isOverdue ? "overdue" : ""}
+        `;
+
+                li.innerHTML = `
+            <div>
+                <span class="task-text">${task.text}</span>
+                ${task.date ? `<small style="margin-left:10px;color:#6b7280;">Due: ${task.date}</small>` : ""}
+                ${isOverdue ? `<span style="color:red;font-weight:bold;"> (Overdue)</span>` : ""}
+            </div>
+
+            <div class="task-buttons">
+                <button class="todo-complete" onclick="toggleComplete(${index})">Complete</button>
+                <button class="todo-edit" onclick="editTask(${index})">Edit</button>
+                <button class="todo-delete" onclick="deleteTask(${index})">Delete</button>
+            </div>
+        `;
+
+                taskList.appendChild(li);
+            });
+
+            updateSummary();
+        }
+
+        renderTasks();
+
+
+        function initializePlanner() {
+
+            const plannerBody = document.getElementById("plannerBody");
+            plannerBody.innerHTML = "";
+
+            const periods = ["Morning", "Afternoon", "Evening"];
+
+            for (let period of periods) {
+                for (let day = 0; day < 7; day++) {
+
+                    const cell = document.createElement("div");
+                    cell.className = "planner-cell";
+                    cell.setAttribute("data-day", day);
+                    cell.setAttribute("data-period", period);
+
+                    cell.innerHTML = `<div class="period-label">${period}</div>`;
+
+                    plannerBody.appendChild(cell);
+                }
+            }
+
+            loadPlannerEvents();
+        }
+
+        function addPlannerEvent() {
+
+            const title = document.getElementById("eventTitle").value.trim();
+            const day = parseInt(document.getElementById("eventDay").value);
+            const timeInput = document.getElementById("endTime");
+
+            if (!timeInput) return;
+
+            const time = timeInput.value;
+
+            if (!title || !time) return;
+
+            let hour = parseInt(time.split(":")[0]);
+
+            let period;
+
+            if (hour >= 5 && hour < 12) period = "Morning";
+            else if (hour >= 12 && hour < 17) period = "Afternoon";
+            else period = "Evening";
+
+            let events = JSON.parse(localStorage.getItem("plannerEvents")) || [];
+
+            events.push({
+                title,
+                day,
+                time,
+                period
+            });
+
+            localStorage.setItem("plannerEvents", JSON.stringify(events));
+
+            document.getElementById("eventTitle").value = "";
+            timeInput.value = "";
+
+            loadPlannerEvents();
+        }
+
+        function loadPlannerEvents() {
+
+            const cells = document.querySelectorAll(".planner-cell");
+
+            cells.forEach(cell => {
+                const label = cell.querySelector(".period-label");
+                cell.innerHTML = "";
+                if (label) cell.appendChild(label);
+            });
+
+            let events = JSON.parse(localStorage.getItem("plannerEvents")) || [];
+
+            events.forEach((event, index) => {
+
+                const cell = document.querySelector(
+                    `.planner-cell[data-day="${event.day}"][data-period="${event.period}"]`
+                );
+
+                if (cell) {
+
+                    const eventDiv = document.createElement("div");
+                    eventDiv.className = "planner-event";
+
+                    eventDiv.innerHTML = `
+                <div>${event.title}</div>
+                <small>${event.time}</small>
+                <button onclick="deletePlannerEvent(${index})">✕</button>
+            `;
+
+                    cell.appendChild(eventDiv);
+                }
+            });
+        }
+
+        function deletePlannerEvent(index) {
+
+            let events = JSON.parse(localStorage.getItem("plannerEvents")) || [];
+
+            events.splice(index, 1);
+
+            localStorage.setItem("plannerEvents", JSON.stringify(events));
+
+            loadPlannerEvents();
+        }
+
+        initializePlanner();
+
+
+
+
+        function toggleHelp(element) {
+            const item = element.parentElement;
+            item.classList.toggle("active");
+        }
+
+        function searchHelp() {
+            const input = document.getElementById("helpSearch").value.toLowerCase();
+            const items = document.querySelectorAll(".help-item");
+
+            items.forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = text.includes(input) ? "block" : "none";
+            });
+        }
+
+        function feedback(type) {
+            const msg = document.getElementById("feedbackMessage");
+
+            if (type === "yes") {
+                msg.innerText = "Thank you for your feedback 😊";
+                msg.style.color = "green";
+            } else {
+                msg.innerText = "We will improve this section 💜";
+                msg.style.color = "red";
+            }
+        }
+
+        let timerInterval;
+        let seconds = 0;
+
+        function updateTimer() {
+            seconds++;
+            let hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+            let mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+            let secs = String(seconds % 60).padStart(2, '0');
+            document.getElementById("timerDisplay").innerText = `${hrs}:${mins}:${secs}`;
+        }
+
+        function startTimer() {
+            if (!timerInterval) {
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            seconds = 0;
+            document.getElementById("timerDisplay").innerText = "00:00:00";
+        }
+
+
+
+
+        function shareProfile() {
+
+            const savedProfile = localStorage.getItem("profileData");
+
+            let data;
+
+            if (savedProfile) {
+                data = JSON.parse(savedProfile);
+            } else {
+                data = {
+                    name: document.getElementById("name").innerText
+                };
+            }
+
+            const shareLink =
+                `https://studyhub-profile.com/user?name=${encodeURIComponent(data.name)}`;
+
+            navigator.clipboard.writeText(shareLink);
+
+            alert("Profile link copied to clipboard!");
+        }
+
+
+
+        window.addEventListener("DOMContentLoaded", function () {
+
+            const cards = document.querySelectorAll(".card");
+
+            cards.forEach((card, index) => {
+
+                if (card.classList.contains("profile-card")) return;
+
+                const saved = localStorage.getItem("card-" + index);
+                if (saved) card.innerHTML = saved;
+            });
+
+            const savedProfile = localStorage.getItem("profileData");
+            const savedAvatar = localStorage.getItem("profileAvatar");
+
+            if (savedProfile) {
+
+                const data = JSON.parse(savedProfile);
+
+                Object.keys(data).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = data[id];
+                });
+
+                updateInitials(data.name);
+
+            } else {
+
+                const defaultName = document.getElementById("name");
+                if (defaultName) updateInitials(defaultName.innerText);
+            }
+
+            if (savedAvatar) {
+
+                avatar.style.backgroundImage = `url(${savedAvatar})`;
+                avatar.style.backgroundSize = "cover";
+                avatar.style.backgroundPosition = "center";
+                avatar.textContent = "";
+            }
+        });
+
+        function updateGreeting() {
+
+            const hour = new Date().getHours();
+
+            if (hour < 12) {
+                greetingText = "Good Morning";
+            } else if (hour < 15) {
+                greetingText = "Good Afternoon";
+            } else if (hour < 21) {
+                greetingText = "Good Evening";
+            } else {
+                greetingText = "Good Night";
+            }
+
+            document.getElementById("greeting").innerText =
+                `${greetingText}!`;
+        }
+
+        updateGreeting();
+
+        function confirmLogout() {
+            const confirmAction = confirm("Are you sure you want to logout?");
+
+            if (confirmAction) {
+                localStorage.clear();
+                window.location.href = "index.html";
+            }
+        }
+
+
+        if (window.location.pathname.includes("dynamic.html")) {
+            if (localStorage.getItem("isLoggedIn") !== "true") {
+                window.location.href = "login.html";
+            }
+        }
+
+
+
+
+
+
+        const sidebarUsername = document.getElementById("sidebarUsername");
+        const sidebarEmail = document.getElementById("sidebarEmail");
+        const profileUsername = document.getElementById("profileUsername");
+        const profileEmail = document.getElementById("profileEmail");
+        const roleElement = document.getElementById("userRole");
+
+        const savedUsername = localStorage.getItem("userUsername");
+        const savedEmail = localStorage.getItem("userEmail");
+        const savedRole = localStorage.getItem("userRole");
+
+        if (savedUsername) {
+            if (sidebarUsername) sidebarUsername.textContent = savedUsername;
+            if (profileUsername) profileUsername.textContent = savedUsername;
+        }
+
+        if (savedEmail) {
+            if (sidebarEmail) sidebarEmail.textContent = savedEmail;
+            if (profileEmail) profileEmail.textContent = savedEmail;
+        }
+
+        if (savedRole && roleElement) {
+            roleElement.textContent = savedRole.toUpperCase();
+        }
+
+
+
+
+        const profileAvatar = document.getElementById("profileAvatar");
+        const sidebarAvatar = document.getElementById("sidebarAvatar");
+        const avatarUpload = document.getElementById("avatarUpload");
+
+
+        const savedImage = localStorage.getItem("profileImage");
+
+        if (savedImage) {
+            const imgTag = `<img src="${savedImage}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+
+            if (profileAvatar) profileAvatar.innerHTML = imgTag;
+            if (sidebarAvatar) sidebarAvatar.innerHTML = imgTag;
+        }
+
+
+        if (profileAvatar) {
+            profileAvatar.addEventListener("click", function () {
+                avatarUpload.click();
+            });
+        }
+
+
+        if (avatarUpload) {
+            avatarUpload.addEventListener("change", function () {
+                const file = this.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const imageData = e.target.result;
+
+                    localStorage.setItem("profileImage", imageData);
+
+                    const imgTag = `<img src="${imageData}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+
+                    if (profileAvatar) profileAvatar.innerHTML = imgTag;
+                    if (sidebarAvatar) sidebarAvatar.innerHTML = imgTag;
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function editCard(icon) {
+
+            const card = icon.closest(".card");
+            const title = card.querySelector("h3").innerText;
+
+            if (title === "Soft Skills" || title === "Interests") {
+
+                const skillNames = card.querySelectorAll("p");
+                const progressBars = card.querySelectorAll(".progress-fill");
+
+                skillNames.forEach((skill, index) => {
+
+                    const input = prompt(
+                        `Enter percentage for ${skill.innerText} (0-100):`
+                    );
+
+                    if (input !== null && !isNaN(input)) {
+
+                        let percent = Math.max(0, Math.min(100, parseInt(input)));
+                        progressBars[index].style.width = percent + "%";
+                    }
+                });
+
+                return;
+            }
+
+
+
+            const paragraphs = card.querySelectorAll("p");
+
+            paragraphs.forEach(p => {
+
+
+                p.contentEditable = true;
+                p.style.background = "#eef2ff";
+                p.style.borderRadius = "6px";
+                p.style.padding = "4px 6px";
+
+
+                p.addEventListener("blur", function () {
+                    p.contentEditable = false;
+                    p.style.background = "transparent";
+                    p.style.padding = "0";
+                });
+
+            });
+        }
+
+
+        let editMode = false;
+
+        function editProfile() {
+
+            const editableFields = [
+                "profileUsername",
+                "education",
+                "profileEmail",
+                "university",
+                "city",
+                "streak",
+                "tasks",
+                "quizzes"
+            ];
+
+            editMode = !editMode;
+
+            editableFields.forEach(id => {
+
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                el.contentEditable = editMode;
+                el.style.background = editMode ? "#eef2ff" : "transparent";
+                el.style.borderRadius = "6px";
+                el.style.padding = editMode ? "4px 6px" : "0";
+                el.style.outline = "none";
+            });
+
+            const editBtn = document.querySelector(".profile-buttons button");
+            editBtn.innerText = editMode ? "Save Profile" : "Edit Profile";
+
+            if (!editMode) {
+                saveProfile();
+            }
+        }
+
+
+        function saveProfile() {
+
+            const fields = [
+                "profileUsername",
+                "education",
+                "profileEmail",
+                "university",
+                "city",
+                "streak",
+                "tasks",
+                "quizzes"
+            ];
+
+            let profileData = {};
+
+            fields.forEach(id => {
+
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                profileData[id] = el.innerText.trim();
+            });
+
+            localStorage.setItem("profileData", JSON.stringify(profileData));
+
+            console.log("Profile Saved ✅");
+        }
+
+
+        function shareProfile() {
+
+            const savedProfile = JSON.parse(localStorage.getItem("profileData")) || {};
+
+            const name = savedProfile.profileUsername || "User";
+
+            const shareLink =
+                `https://studyhub-profile.com/user?name=${encodeURIComponent(name)}`;
+
+            navigator.clipboard.writeText(shareLink);
+
+            alert("Profile link copied to clipboard!");
+        }
+
+
+        window.addEventListener("DOMContentLoaded", function () {
+
+            const savedProfile = localStorage.getItem("profileData");
+
+            if (savedProfile) {
+
+                const data = JSON.parse(savedProfile);
+
+                Object.keys(data).forEach(id => {
+
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = data[id];
+
+                });
+            }
+        });
+
+        function launchConfetti() {
+
+            const colors = [
+                "#ff0a54",
+                "#ff477e",
+                "#ff85a1",
+                "#fbb1bd",
+                "#f9bec7",
+                "#00f5d4",
+                "#00bbf9",
+                "#9b5de5",
+                "#fee440"
+            ];
+
+            for (let i = 0; i < 150; i++) {
+
+                const confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                confetti.style.width = Math.random() * 8 + 4 + "px";
+                confetti.style.height = Math.random() * 12 + 6 + "px";
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+
+
+    </script>
+
+</body>
+
+</html>

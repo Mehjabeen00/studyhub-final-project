@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="auth-box">
+        <form id="signupForm">
+            <h2>Create Account</h2>
+            <label>Full Name</label>
+            <input type="text"id="fullName" placeholder="Full name">
+
+            <label>Username</label>
+            <input type="text" id="username" placeholder="Username">
+
+
+            <label>Mobile number or Email</label>
+            <input type="text" id="signupEmail" placeholder="Mobile number or email">
+
+            <label>Password</label>
+            <div class="password-wrap">
+                <input type="password" id="password" placeholder="Password">
+                <span id="togglePassword">👁</span>
+            </div>
+
+            <p id="errorMsg" class="error"></p>
+
+            <label>Birthday</label>
+            <small>This will not be shown publicly.</small>
+
+            <div class="birthday-group">
+                <select>
+                    <option>Month</option>
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    <option>June</option>
+                    <option>July</option>
+                    <option>August</option>
+                    <option>September</option>
+                </select>
+
+                <select>
+                    <option>Day</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                    <option>13</option>
+                    <option>14</option>
+                    <option>15</option>
+                    <option>16</option>
+                    <option>17</option>
+                    <option>18</option>
+                    <option>19</option>
+                    <option>20</option>
+                    <option>21</option>
+                    <option>22</option>
+                    <option>23</option>
+                    <option>24</option>
+                    <option>25</option>
+                    <option>26</option>
+                    <option>27</option>
+                    <option>28</option>
+                    <option>29</option>
+                    <option>30</option>
+                    <option>31</option>
+                </select>
+
+                <select>
+                    <option>Year</option>
+                    <option>2012</option>
+                    <option>2011</option>
+                    <option>2010</option>
+                    <option>2009</option>
+                    <option>2008</option>
+                    <option>2007</option>
+                    <option>2006</option>
+                    <option>2005</option>
+                    <option>2004</option>
+                    <option>2003</option>
+                </select>
+            </div>
+
+
+            <button type="submit" class="login-btn">Sign up</button>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

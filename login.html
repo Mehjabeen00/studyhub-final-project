@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Portal - Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="auth-box">
+        <h2> Login to your account</h2>
+
+        <form id="loginForm">
+
+
+            <input type="email" id="email" placeholder="Enter your username or email" required>
+
+            <div class="password-wrap">
+                <input type="password" id="password" placeholder="Password" required>
+                <span id="togglePassword">👁</span>
+            </div>
+
+            <div class="role-select">
+                <label>Login As:</label>
+                <select id="role">
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+
+
+            <p id="errorMsg" class="error loginError"></p>
+            <button type="submit" class="login-btn">Login</button>
+
+            <p class="forgot"><a href="signup.html">Forgot Password?</a></p>
+
+            <p>No account? <a href="signup.html">Sign Up</a></p>
+
+
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
